@@ -5,10 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                 withCredentials([ credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL']) {
-                     withCredentials([credentialsId:'STRIDE_TOKEN', variable:'STRIDE_TOKEN']){
-                    sh './.scripts/notifyStride.sh'
-                 }}
+                sh './.scripts/notifyStride.sh'
             }
         }
         stage('Test') {
