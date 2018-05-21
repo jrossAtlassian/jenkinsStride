@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh './.scripts/notifyStride.sh'
             }
         }
         stage('Test') {
