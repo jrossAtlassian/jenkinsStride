@@ -5,9 +5,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
-                    sh './.scripts/notifyStride.sh'
-                }          
+                // withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+                //     sh './.scripts/notifyStride.sh'
+                // }          
             }
         }
         stage('Test') {
@@ -19,6 +19,13 @@ pipeline {
             steps {
                 echo 'Deploying....'
             }
+        }
+    }
+    post{
+        failure{
+            withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+                sh './.scripts/notifyStride.failure.sh'
+            }  
         }
     }
 }
