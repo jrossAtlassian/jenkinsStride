@@ -13,6 +13,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                error("Build failed because of this and that..")
             }
         }
         stage('Deploy') {
