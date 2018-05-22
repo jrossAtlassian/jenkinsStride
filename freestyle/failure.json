@@ -1,0 +1,50 @@
+{
+    "content": [
+        {
+            "attrs": {
+                "collapsible": true,
+                "context": {
+                    "icon": {
+                        "label": "Jenkins Build Server",
+                        "url": "https://jenkins.io/sites/default/files/jenkins_favicon.ico"
+                    },
+                    "text": "Jenkins Build Server - ${JOB_NAME} ${BUILD_DISPLAY_NAME} - BUILD FAILED"
+                },
+                "description": {
+                    "text": "Tag: ${BUILD_TAG}    Commit:${GIT_COMMIT}"
+                },
+                "details": [
+                    {
+                        "lozenge": {
+                            "appearance": "removed",
+                            "text": "BUILD FAILED"
+                        }
+                    },
+                    {
+                        "lozenge": {
+                            "appearance": "removed",
+                            "text": "${BUILD_DISPLAY_NAME}"
+                        },
+                        "title": "Build Number"
+                    }
+                ],
+                "link": {
+                    "url": "${RUN_DISPLAY_URL}"
+                },
+                "text": "${JOB_NAME} - BUILD FAILED",
+                "title": {
+                    "text": "${JOB_NAME} - BUILD FAILED",
+                    "user":{
+                        "icon":{
+                            "url":"data:image/png;base64,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",
+                            "label":"BUILD FAILED"
+                        }
+                    }
+                }
+            },
+            "type": "applicationCard"
+        }
+    ],
+    "type": "doc",
+    "version": 1
+}

@@ -1,4 +1,3 @@
-set -u
 set +x
 
 curl -X POST \
