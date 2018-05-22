@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
 
@@ -5,10 +7,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                configFileProvider([configFile(fileId: 'notify_stride.failure', variable: 'NOTIFY_SCRIPT')]) {
-                    withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
+                configFileProvider([configFile(fileId: 'notify_stride.stage', variable: 'NOTIFY_SCRIPT')]) {
+                    withCredentials([usernamePassword(credentialsId: 'strideConversationToken', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                         sh 'chmod +x $NOTIFY_SCRIPT && sh $NOTIFY_SCRIPT'
-                        
                     }
                 }
             }
@@ -17,25 +18,38 @@ pipeline {
             steps {
                 echo 'Testing..'
                 //error("Build failed because of this and that..") 
+                configFileProvider([configFile(fileId: 'notify_stride.stage', variable: 'NOTIFY_SCRIPT')]) {
+                    withCredentials([usernamePassword(credentialsId: 'strideConversationToken', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
+                        sh 'chmod +x $NOTIFY_SCRIPT && sh $NOTIFY_SCRIPT'
+                    }
+                }
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-
+                configFileProvider([configFile(fileId: 'notify_stride.stage', variable: 'NOTIFY_SCRIPT')]) {
+                    withCredentials([usernamePassword(credentialsId: 'strideConversationToken', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
+                        sh 'chmod +x $NOTIFY_SCRIPT && sh $NOTIFY_SCRIPT'
+                    }
+                }
             }
         }   
     }
     post{
         success{
-            withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
-                sh '.scripts/notifyStride.success.sh'
-            }  
+            configFileProvider([configFile(fileId: 'notify_stride.success', variable: 'NOTIFY_SCRIPT')]) {
+                withCredentials([usernamePassword(credentialsId: 'strideConversationToken', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
+                    sh 'chmod +x $NOTIFY_SCRIPT && sh $NOTIFY_SCRIPT'
+                }
+            }
         }
         failure{
-            withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
-                sh '.scripts/notifyStride.failure.sh'
-            }  
+            configFileProvider([configFile(fileId: 'notify_stride.failure', variable: 'NOTIFY_SCRIPT')]) {
+                withCredentials([usernamePassword(credentialsId: 'strideConversationToken', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
+                    sh 'chmod +x $NOTIFY_SCRIPT && sh $NOTIFY_SCRIPT'
+                }
+            }
         }
     }
 }
