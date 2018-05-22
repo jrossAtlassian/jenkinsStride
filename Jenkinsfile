@@ -7,7 +7,8 @@ pipeline {
                 echo 'Building..'
                 configFileProvider([configFile(fileId: 'notify_stride.failure', variable: 'NOTIFY_SCRIPT')]) {
                     withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
-                        sh '$NOTIFY_SCRIPT'
+                        sh 'chmod +x $NOTIFY_SCRIPT & sh $NOTIFY_SCRIPT'
+                        
                     }
                 }
             }
