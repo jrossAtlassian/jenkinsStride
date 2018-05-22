@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                     sh './.scripts/notifyStride.stage.sh'
                 }          
             }
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo 'Testing..'
                 //error("Build failed because of this and that..")
-                withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                     sh './.scripts/notifyStride.stage.sh'
                 }   
             }
@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                     sh './.scripts/notifyStride.stage.sh'
                 }   
             }
@@ -30,12 +30,12 @@ pipeline {
     }
     post{
         success{
-            withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+            withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                 sh './.scripts/notifyStride.success.sh'
             }  
         }
         failure{
-            withCredentials([string(credentialsId: 'STRIDE_CONVERSATION_URL', variable: 'STRIDE_CONVERSATION_URL'), string(credentialsId: 'STRIDE_TOKEN', variable: 'STRIDE_TOKEN')]) {
+            withCredentials([usernamePassword(credentialsId: 'e6c1fed9-dc2d-4e5d-ad1d-04e95722cabe', passwordVariable: 'STRIDE_TOKEN', usernameVariable: 'STRIDE_CONVERSATION_URL')]) {
                 sh './.scripts/notifyStride.failure.sh'
             }  
         }
