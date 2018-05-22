@@ -2,7 +2,7 @@
         agent any
     
             stages {
-                 configFileProvider(configFile(fileId: 'cfe95f0a-2659-408a-80b3-7764217d00b7', targetLocation: 'stride.notify.sh')]) {
+                 configFileProvider(configFile(fileId: 'cfe95f0a-2659-408a-80b3-7764217d00b7', targetLocation: 'stride.notify.sh')) {
                 stage('Build') {
                     steps {
                         echo 'Building..'
